@@ -2,7 +2,7 @@
 
 <img src="https://github.com/kopokopok/sudoku-solver/blob/main/img/demo.gif" width="400"/>
 
-This is a fully playable sudoku game made with Python 3. The user can choose to solve the board themselves, or they have the computer solve it with depth-first search and backtracking.
+This is a fully playable sudoku game made. The user can choose to solve the board themselves, or they have the computer solve it with depth-first search and backtracking.
 
 ## Installation 
 
