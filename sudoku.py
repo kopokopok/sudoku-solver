@@ -1,4 +1,3 @@
-import sys, time
 import pygame as pg
 
 class Board:
@@ -24,8 +23,12 @@ class Board:
         self.selected = None
 
     def draw(self):
-        self.win.fill(pg.Color('white'))
-
+        pg.draw.rect(
+            self.win, 
+            pg.Color('white'), 
+            pg.Rect(self.offset, self.offset, self.board_size, self.board_size), 
+            0
+        )
         pg.draw.rect(
             self.win, 
             pg.Color('black'), 
@@ -187,14 +190,14 @@ class Cell:
         self.row = row
         self.col = col
         self.color = color
-        self.initial = True if val == 0 else False
+        self.initial = True if val != 0 else False
         self.mutable = True if val == 0 else False
 
     def draw(self):
         if self.initial:
-            fnt = pg.font.Font("Aller_Std_LtIt.ttf", 25)
-        else:
             fnt = pg.font.Font("Aller_Std_Bd.ttf", 25)
+        else:
+            fnt = pg.font.Font("Aller_Std_LtIt.ttf", 25)
 
         gap = self.board_size / self.row_col
         x = self.col * gap + self.offset
@@ -214,75 +217,3 @@ class Cell:
         if self.mutable:
             self.val = 0
             self.tmp_val = 0
-
-
-def draw_game()
-
-
-def format_time(secs):
-    sec = secs % 60
-    minute = secs // 60
-    hour = minute // 60
-
-    res = " " + str(minute) + ":" + str(sec)
-    return res
-
-
-def main():
-    pg.init()
-    win_size = (540, 600)
-    win = pg.display.set_mode(win_size)
-    pg.display.set_caption("Sudoku Solver")
-    board = Board(win, win_size[0])
-    key = None
-
-    while True:
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                sys.exit()
-            elif event.type == pg.KEYDOWN:
-                if event.key == pg.K_1 or event.key == pg.K_KP1:
-                    key = 1
-                elif event.key == pg.K_2 or event.key == pg.K_KP2:
-                    key = 2
-                elif event.key == pg.K_3 or event.key == pg.K_KP3:
-                    key = 3
-                elif event.key == pg.K_4 or event.key == pg.K_KP4:
-                    key = 4
-                elif event.key == pg.K_5 or event.key == pg.K_KP5:
-                    key = 5
-                elif event.key == pg.K_6 or event.key == pg.K_KP6:
-                    key = 6
-                elif event.key == pg.K_7 or event.key == pg.K_KP7:
-                    key = 7
-                elif event.key == pg.K_8 or event.key == pg.K_KP8:
-                    key = 8
-                elif event.key == pg.K_9 or event.key == pg.K_KP9:
-                    key = 9
-                elif event.key == pg.K_BACKSPACE:
-                    board.clear()
-                    key = None
-                elif event.key == pg.K_RETURN:
-                    board.place_val()
-                    key = None
-                    if board.is_finished():
-                        print('The board is completed!')
-                elif event.key == pg.K_SPACE:
-                    board.reset()
-                    board.solve(0, 0)
-            elif event.type == pg.MOUSEBUTTONDOWN:
-                pos = pg.mouse.get_pos()
-                clicked = board.click(pos)
-                if clicked:
-                    board.select(clicked[0], clicked[1])
-                    key = None
-
-        if board.selected and key != None:
-            board.place_tmp_val(key)
-
-        board.draw()
-        pg.display.update()
-
-
-if __name__ == '__main__':
-    main() 
